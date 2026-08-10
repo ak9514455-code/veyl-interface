@@ -4,6 +4,19 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-sans:
+    "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-ink-0: oklch(0.1297 0.005 285.67);
+  --color-ink-1: oklch(0.161 0.0084 285.42);
+  --color-ink-2: oklch(0.1851 0.0122 285.15);
+  --color-ink-3: oklch(0.2642 0.0167 285.2);
+  --color-ink-4: oklch(0.3533 0.0207 285.29);
+  --color-veyl: oklch(0.599 0.2299 286.2);
+  --color-veyl-soft: oklch(0.6929 0.1728 289.05);
+}
+
 /*
  * Design system definition.
  *
