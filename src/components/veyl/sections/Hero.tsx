@@ -52,7 +52,7 @@ export function Hero() {
         </div>
 
         <motion.div
-          style={reduced ? undefined : { y: typeY, opacity: typeOpacity }}
+          style={reduced ? {} : { y: typeY, opacity: typeOpacity }}
           className="relative z-10 flex h-full flex-col justify-center px-6 md:px-14"
         >
           <div className="max-w-5xl">
@@ -87,9 +87,13 @@ export function Hero() {
               transition={{ duration: 1, delay: 0.9 }}
               className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-10"
             >
-              <Button variant="outline" magnetic asChild={false} onClick={() => {
-                document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" });
-              }}>
+              <Button
+                variant="outline"
+                magnetic
+                onClick={() =>
+                  document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
                 Get Early Access
               </Button>
               <p className="max-w-xs font-mono text-[11px] leading-relaxed text-muted-foreground">
@@ -102,9 +106,7 @@ export function Hero() {
         {/* environment emerging underneath the typography */}
         <motion.div
           style={
-            reduced
-              ? undefined
-              : { y: envY, rotateX: envRotate, scale: envScale, transformPerspective: 1600 }
+            reduced ? {} : { y: envY, rotateX: envRotate, scale: envScale, transformPerspective: 1600 }
           }
           className="pointer-events-none absolute inset-x-0 bottom-[-30vh] z-0 mx-auto hidden w-[86%] max-w-6xl md:block"
         >
