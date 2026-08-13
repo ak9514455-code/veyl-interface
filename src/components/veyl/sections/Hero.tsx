@@ -69,11 +69,10 @@ export function Hero() {
             <h1 className="sr-only">See what others miss.</h1>
             <motion.div
               aria-hidden
-              custom={0}
-              variants={line}
-              initial={reduced ? "show" : "hidden"}
-              animate="show"
-              className="relative -mx-4 h-[38vh] w-[calc(100%+2rem)] min-h-[240px]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 0.25 }}
+              className="relative -mx-4 h-[38vh] min-h-[240px] w-[calc(100%+2rem)]"
             >
               <ASCIIText
                 text="see what others miss"
