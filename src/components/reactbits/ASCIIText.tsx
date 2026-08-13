@@ -446,7 +446,7 @@ export default function ASCIIText({
       if (width === 0 || height === 0) {
         observer = new IntersectionObserver(
           async ([entry]) => {
-            if (cancelled) return;
+            if (cancelled || !entry) return;
             const r = entry.boundingClientRect;
             if (entry.isIntersecting && r.width > 0 && r.height > 0) {
               observer?.disconnect();
