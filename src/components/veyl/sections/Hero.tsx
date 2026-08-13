@@ -74,20 +74,10 @@ export function Hero() {
               transition={{ duration: 1.4, delay: 0.25 }}
               className="relative -mx-2 w-[calc(100%+1rem)]"
             >
-              <div className="h-[22vh] min-h-[150px] w-full">
+              <div className="h-[44vh] min-h-[320px] w-full">
                 <ASCIIText
-                  text="see what"
-                  asciiFontSize={16}
-                  textFontSize={200}
-                  planeBaseHeight={8}
-                  enableWaves={!reduced}
-                  textColor="#EDEDF2"
-                />
-              </div>
-              <div className="h-[22vh] min-h-[150px] w-full">
-                <ASCIIText
-                  text="others miss."
-                  asciiFontSize={16}
+                  text="see what others miss"
+                  asciiFontSize={8}
                   textFontSize={200}
                   planeBaseHeight={8}
                   enableWaves={!reduced}
