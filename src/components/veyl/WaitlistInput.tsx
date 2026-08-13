@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { z } from "zod";
 import { joinWaitlist } from "@/lib/waitlist";
+import ElectricBorder from "@/components/reactbits/ElectricBorder";
 
 const emailSchema = z
   .string()
@@ -54,14 +55,17 @@ export function WaitlistInput() {
             </p>
           </motion.div>
         ) : (
-          <motion.form
+          <motion.div
             key="form"
-            onSubmit={onSubmit}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -8 }}
-            className="flex items-center gap-3 border-b border-ink-3 pb-3 transition-colors focus-within:border-veyl"
           >
+            <ElectricBorder color="#7C5CFF" speed={0.8} chaos={0.1} borderRadius={12}>
+            <form
+              onSubmit={onSubmit}
+              className="flex items-center gap-3 px-4 py-3"
+            >
             <label htmlFor="veyl-email" className="sr-only">
               Email address
             </label>
@@ -86,7 +90,9 @@ export function WaitlistInput() {
             >
               {state === "loading" ? "···" : "Join"}
             </button>
-          </motion.form>
+            </form>
+            </ElectricBorder>
+          </motion.div>
         )}
       </AnimatePresence>
       <div aria-live="polite" className="mt-3 h-4 font-mono text-[11px] text-destructive">

@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button, StatusIndicator } from "../ui-kit";
 import { VeylEnvironment } from "../VeylEnvironment";
+import ASCIIText from "@/components/reactbits/ASCIIText";
 
 const fragments = [
   { t: "17:02:44  pid 4412  chromium  ESTABLISHED", c: "top-[18%] left-[6%]" },
@@ -65,21 +66,25 @@ export function Hero() {
               <StatusIndicator label="not yet released" tone="active" />
             </motion.div>
 
-            <h1 className="veyl-display text-[15vw] leading-[0.86] sm:text-[13vw] md:text-[10.5vw] lg:text-[9rem]">
-              {["See what", "others miss."].map((l, i) => (
-                <span key={l} className="block overflow-hidden">
-                  <motion.span
-                    custom={i}
-                    variants={line}
-                    initial={reduced ? "show" : "hidden"}
-                    animate="show"
-                    className="block"
-                  >
-                    {l}
-                  </motion.span>
-                </span>
-              ))}
-            </h1>
+            <h1 className="sr-only">See what others miss.</h1>
+            <motion.div
+              aria-hidden
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 0.25 }}
+              className="relative -mx-2 w-[calc(100%+1rem)]"
+            >
+              <div className="h-[44vh] min-h-[320px] w-full">
+                <ASCIIText
+                  text="see what others miss"
+                  asciiFontSize={8}
+                  textFontSize={200}
+                  planeBaseHeight={8}
+                  enableWaves={!reduced}
+                  textColor="#EDEDF2"
+                />
+              </div>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 14 }}
