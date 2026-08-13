@@ -77,7 +77,7 @@ export function Hero() {
               <div className="h-[22vh] min-h-[150px] w-full">
                 <ASCIIText
                   text="see what"
-                  asciiFontSize={9}
+                  asciiFontSize={16}
                   textFontSize={200}
                   planeBaseHeight={8}
                   enableWaves={!reduced}
@@ -87,7 +87,7 @@ export function Hero() {
               <div className="h-[22vh] min-h-[150px] w-full">
                 <ASCIIText
                   text="others miss."
-                  asciiFontSize={9}
+                  asciiFontSize={16}
                   textFontSize={200}
                   planeBaseHeight={8}
                   enableWaves={!reduced}

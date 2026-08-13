@@ -27,7 +27,7 @@ export function VisualBreak() {
       >
         <ASCIIText
           text="worth noticing"
-          asciiFontSize={7}
+          asciiFontSize={14}
           textFontSize={180}
           planeBaseHeight={7}
           enableWaves={!reduced}
