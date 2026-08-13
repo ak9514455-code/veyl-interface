@@ -72,16 +72,28 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 0.25 }}
-              className="relative -mx-4 h-[38vh] min-h-[240px] w-[calc(100%+2rem)]"
+              className="relative -mx-2 w-[calc(100%+1rem)]"
             >
-              <ASCIIText
-                text="see what others miss"
-                asciiFontSize={7}
-                textFontSize={170}
-                planeBaseHeight={7}
-                enableWaves={!reduced}
-                textColor="#EDEDF2"
-              />
+              <div className="h-[22vh] min-h-[150px] w-full">
+                <ASCIIText
+                  text="see what"
+                  asciiFontSize={9}
+                  textFontSize={200}
+                  planeBaseHeight={8}
+                  enableWaves={!reduced}
+                  textColor="#EDEDF2"
+                />
+              </div>
+              <div className="h-[22vh] min-h-[150px] w-full">
+                <ASCIIText
+                  text="others miss."
+                  asciiFontSize={9}
+                  textFontSize={200}
+                  planeBaseHeight={8}
+                  enableWaves={!reduced}
+                  textColor="#EDEDF2"
+                />
+              </div>
             </motion.div>
 
             <motion.div
