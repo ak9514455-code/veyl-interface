@@ -475,7 +475,9 @@ export default function ASCIIText({
       ro = new ResizeObserver(entries => {
         if (!entries[0] || !asciiRef.current) return;
         const { width: w, height: h } = entries[0].contentRect;
-        if (w > 0 && h > 0) asciiRef.current.setSize(w, h);
+        if (w > 0 && h > 0) {
+          requestAnimationFrame(() => asciiRef.current?.setSize(w, h));
+        }
       });
       ro.observe(el);
     };
