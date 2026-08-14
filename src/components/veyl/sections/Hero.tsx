@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button, StatusIndicator } from "../ui-kit";
 import { VeylEnvironment } from "../VeylEnvironment";
-import ASCIIText from "@/components/reactbits/ASCIIText";
 
 const fragments = [
   { t: "17:02:44  pid 4412  chromium  ESTABLISHED", c: "top-[18%] left-[6%]" },
