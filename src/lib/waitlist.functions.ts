@@ -21,3 +21,12 @@ export const submitWaitlist = createServerFn({ method: "POST" })
 
     return { ok: true as const };
   });
+
+export const getWaitlistCount = createServerFn({ method: "GET" }).handler(async () => {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { count, error } = await supabaseAdmin
+    .from("waitlist_signups")
+    .select("*", { count: "exact", head: true });
+  if (error) return { count: 0 };
+  return { count: count ?? 0 };
+});

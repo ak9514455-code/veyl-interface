@@ -205,3 +205,52 @@
     scroll-behavior: auto;
   }
 }
+
+/* ---------- ElectricBorder (React Bits) ---------- */
+.electric-border {
+  position: relative;
+  isolation: isolate;
+}
+.eb-canvas-container {
+  position: absolute;
+  inset: -60px;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.eb-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.eb-layers {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+.eb-glow-1,
+.eb-glow-2 {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid color-mix(in oklab, var(--electric-border-color) 35%, transparent);
+}
+.eb-glow-2 {
+  filter: blur(6px);
+  opacity: 0.6;
+}
+.eb-background-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--electric-border-color) 8%, transparent);
+  filter: blur(10px);
+  opacity: 0.7;
+}
+.eb-content {
+  position: relative;
+  z-index: 1;
+  border-radius: inherit;
+}
