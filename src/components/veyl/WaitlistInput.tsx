@@ -49,9 +49,19 @@ export function WaitlistInput() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="border-b border-veyl/50 pb-3"
           >
-            <p className="veyl-display text-3xl">You&apos;re in.</p>
-            <p className="mt-2 font-mono text-[11px] text-muted-foreground">
-              {email} — we&apos;ll be in touch before launch.
+            <div className="flex items-center gap-3">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-veyl/60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-veyl" />
+              </span>
+              <p className="veyl-display text-3xl">You&apos;re in.</p>
+            </div>
+            <p className="mt-3 font-mono text-[11px] text-muted-foreground">
+              <span className="text-veyl-soft">{email}</span> registered · access
+              key reserved
+            </p>
+            <p className="mt-1 font-mono text-[11px] text-muted-foreground">
+              We&apos;ll send one message before launch. Nothing else.
             </p>
           </motion.div>
         ) : (
