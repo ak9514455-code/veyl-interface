@@ -5,13 +5,16 @@ import { Hero } from "@/components/veyl/sections/Hero";
 import { Reveal } from "@/components/veyl/sections/Reveal";
 import { EventStory } from "@/components/veyl/sections/EventStory";
 import { Mentor } from "@/components/veyl/sections/Mentor";
-import { TerminalSection } from "@/components/veyl/sections/TerminalSection";
-import { VisualBreak } from "@/components/veyl/sections/VisualBreak";
-import { Waitlist } from "@/components/veyl/sections/Waitlist";
+import React, { Suspense } from 'react';
+const TerminalSection = React.lazy(() => import('@/components/veyl/sections/TerminalSection').then(m => ({ default: m.TerminalSection })));
+const VisualBreak = React.lazy(() => import('@/components/veyl/sections/VisualBreak').then(m => ({ default: m.VisualBreak })));
+const Waitlist = React.lazy(() => import('@/components/veyl/sections/Waitlist').then(m => ({ default: m.Waitlist })));
 
 const title = "VEYL — See what others miss.";
 const description =
   "VEYL is a cybersecurity workstation for visibility, privacy, investigation and understanding what your machine is doing. Early access.";
+
+import CinematicLayout from "@/components/Layout/CinematicLayout";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,16 +32,18 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="relative bg-ink-0 text-foreground">
+    <CinematicLayout>
       <CursorField />
       <Navigation />
       <Hero />
       <Reveal />
       <EventStory />
       <Mentor />
-      <TerminalSection />
-      <VisualBreak />
-      <Waitlist />
-    </main>
+      <Suspense fallback={<div className="py-24">Loading...</div>}>
+        <TerminalSection />
+        <VisualBreak />
+        <Waitlist />
+      </Suspense>
+    </CinematicLayout>
   );
 }

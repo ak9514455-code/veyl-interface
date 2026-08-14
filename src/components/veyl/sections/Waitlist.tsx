@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { WaitlistInput } from "../WaitlistInput";
+import WaitlistInput from "../WaitlistInputSecure";
 import { StatusIndicator } from "../ui-kit";
 import { fetchWaitlistCount } from "@/lib/waitlist";
+import GridScan from "@/components/reactbits/GridScan";
 
 const MANIFEST = [
   ["01", "Early access", "First build, before public release."],
@@ -49,6 +50,11 @@ export function Waitlist() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-[40vh] bg-[radial-gradient(60%_100%_at_50%_0%,color-mix(in_oklab,var(--color-veyl)_14%,transparent),transparent_70%)]"
       />
+
+      {/* Visual background layers */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <GridScan linesColor="#7C5CFF" className="absolute inset-0" />
+      </div>
 
       <div className="relative flex flex-1 flex-col justify-center">
         <motion.div

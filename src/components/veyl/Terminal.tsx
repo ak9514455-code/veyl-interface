@@ -23,34 +23,51 @@ export function Terminal({
       setLines(output.length);
       return;
     }
-    let i = 0;
-    const t = setInterval(() => {
-      i += 1;
-      setTyped(command.slice(0, i));
-      if (i >= command.length) {
-        clearInterval(t);
+
+    let stopped = false;
+    let index = 0;
+
+    function step() {
+      if (stopped) return;
+      index += 1;
+      setTyped(command.slice(0, index));
+      if (index >= command.length) {
+        // reveal output lines with stagger
         output.forEach((_, idx) => setTimeout(() => setLines(idx + 1), 220 * (idx + 1)));
+        return;
       }
-    }, 28);
-    return () => clearInterval(t);
+      // adaptive speed: pause a bit after punctuation
+      const char = command.charAt(index - 1);
+      const base = 16;
+      const extra = char === ' ' ? 6 : /[.,;:!\-]/.test(char) ? 120 : 0;
+      setTimeout(() => requestAnimationFrame(step), base + extra);
+    }
+
+    requestAnimationFrame(step);
+    return () => {
+      stopped = true;
+    };
   }, [inView, command, output, reduced]);
 
   return (
-    <div ref={ref} className="px-5 py-5 font-mono text-[13px] leading-7">
-      <div className="flex gap-2">
-        <span className="text-veyl-soft">{prompt}</span>
-        <span className="text-foreground/90">
-          {typed}
-          <span className="ml-0.5 inline-block h-4 w-[7px] translate-y-0.5 animate-pulse bg-veyl" />
+    <div ref={ref} className="px-5 py-5 font-mono text-[13px] leading-7 text-[#B7F5A9]">
+      <div className="flex gap-2 items-center">
+        <span className="text-[#7ED06A]">{prompt}</span>
+        <span className="text-[#B7F5A9] tracking-tight">
+          <span style={{ whiteSpace: 'pre' }}>{typed}</span>
+          <span className="ml-0.5 inline-block h-4 w-[8px] translate-y-0.5 bg-[#7ED06A] animate-blink" />
         </span>
       </div>
+
       <div className="mt-3 space-y-1">
-        {output.slice(0, lines).map((line) => (
-          <div key={line} className="text-muted-foreground">
+        {output.slice(0, lines).map((line, idx) => (
+          <div key={`${idx}-${line}`} className="text-[#8FCE84] opacity-0 animate-fade-in" style={{ animationDelay: `${0.06 * idx}s`, animationFillMode: 'forwards' }}>
             {line}
           </div>
         ))}
       </div>
+
+      <style>{`@keyframes blink{0%{opacity:1}50%{opacity:0}100%{opacity:1}} .animate-blink{animation: blink 1s steps(1) infinite}`}</style>
     </div>
   );
 }
