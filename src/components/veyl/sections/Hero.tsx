@@ -66,25 +66,21 @@ export function Hero() {
               <StatusIndicator label="not yet released" tone="active" />
             </motion.div>
 
-            <h1 className="sr-only">See what others miss.</h1>
-            <motion.div
-              aria-hidden
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 0.25 }}
-              className="relative -mx-2 w-[calc(100%+1rem)]"
-            >
-              <div className="h-[44vh] min-h-[320px] w-full">
-                <ASCIIText
-                  text="see what others miss"
-                  asciiFontSize={8}
-                  textFontSize={200}
-                  planeBaseHeight={8}
-                  enableWaves={!reduced}
-                  textColor="#EDEDF2"
-                />
-              </div>
-            </motion.div>
+            <h1 className="veyl-display text-[clamp(3rem,11vw,10rem)] leading-[0.88]">
+              {["See what", "others miss."].map((l, i) => (
+                <span key={l} className="block overflow-hidden">
+                  <motion.span
+                    className="block"
+                    variants={line}
+                    initial="hidden"
+                    animate="show"
+                    custom={i}
+                  >
+                    {l}
+                  </motion.span>
+                </span>
+              ))}
+            </h1>
 
             <motion.div
               initial={{ opacity: 0, y: 14 }}
