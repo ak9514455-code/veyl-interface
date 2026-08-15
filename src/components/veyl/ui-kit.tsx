@@ -1,6 +1,5 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { useRef, useState } from "react";
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode, useRef, useState } from "react";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { cn } from "@/lib/utils";
 
 /* ---------------- Button (magnetic) ---------------- */
@@ -141,24 +140,65 @@ export function UIWindow({
   className?: string;
   bodyClassName?: string;
 }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(0, { stiffness: 220, damping: 18, mass: 0.9 });
+  const rotateY = useSpring(0, { stiffness: 220, damping: 18, mass: 0.9 });
+  const scale = useSpring(1, { stiffness: 220, damping: 18, mass: 0.8 });
+
+  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+
+    rotateX.set(py * -12);
+    rotateY.set(px * 12);
+    x.set((px * 18));
+    y.set((py * 18));
+    scale.set(1.012);
+  }
+
+  function handlePointerLeave() {
+    rotateX.set(0);
+    rotateY.set(0);
+    x.set(0);
+    y.set(0);
+    scale.set(1);
+  }
+
   return (
-    <div
+    <motion.div
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      style={{
+        rotateX,
+        rotateY,
+        scale,
+        x,
+        y,
+        transformPerspective: 900,
+      }}
       className={cn(
-        "veyl-grain overflow-hidden rounded-sm border border-ink-3 bg-ink-1/90 backdrop-blur-[2px]",
-        "shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]",
+        "group relative overflow-hidden rounded-[18px] border border-[#42f08a]/20 bg-[#09110c]/90",
+        "shadow-[0_0_0_1px_rgba(90,255,150,0.08),0_30px_80px_-28px_rgba(0,0,0,0.95)]",
+        "before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_top,rgba(92,255,149,0.12),transparent_55%)] before:content-['']",
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b border-ink-3 bg-ink-2/70 px-4 py-2.5">
+      <div className="relative flex items-center justify-between border-b border-[#5ff39a]/12 bg-[#0d1711]/80 px-4 py-3 backdrop-blur-sm">
         <div className="flex items-center gap-3">
-          <span className="h-1.5 w-1.5 rounded-full bg-ink-4" />
-          <span className="font-mono text-[11px] tracking-[0.16em] text-muted-foreground uppercase">
+          <div className="flex gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          </div>
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#9feeb6]/70">
             {title}
           </span>
         </div>
         {right}
       </div>
-      <div className={cn("relative", bodyClassName)}>{children}</div>
-    </div>
+      <div className={cn("relative bg-[linear-gradient(180deg,rgba(7,13,9,0.94),rgba(6,11,8,0.8))]", bodyClassName)}>{children}</div>
+    </motion.div>
   );
 }

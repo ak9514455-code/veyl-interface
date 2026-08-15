@@ -9,11 +9,11 @@ export function Navigation() {
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="flex items-center justify-between px-6 py-5 md:px-10">
         <a href="#top" className="group flex items-center gap-3">
-          <span className="veyl-display text-sm tracking-[0.42em] text-foreground">VEYL</span>
-          <span className="hidden h-3 w-px bg-ink-3 sm:block" />
-          <span className="hidden font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase sm:block">
-            workstation
-          </span>
+          <img src="/veyllogo.png" alt="VEYL" className="h-8 w-8 rounded-sm object-contain" />
+          <div className="hidden sm:block">
+            <span className="veyl-display text-base tracking-[0.22em] text-foreground">VEYL</span>
+            <div className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">workstation</div>
+          </div>
         </a>
         <nav className="flex items-center gap-6">
           <StatusIndicator label="build 0.4.1 · private" tone="active" className="hidden sm:flex" />

@@ -29,11 +29,20 @@ export function WaitlistInput() {
     setState("loading");
     setMessage("");
     const result = await joinWaitlist(parsed.data);
-    if (result.ok) {
+    if (result.success) {
       setState("success");
     } else {
       setState("error");
-      setMessage(result.error);
+      switch (result.reason) {
+        case "already_joined":
+          setMessage("You're already on the list.");
+          break;
+        case "invalid_email":
+          setMessage("Enter a valid email.");
+          break;
+        default:
+          setMessage("Something went wrong. Try again.");
+      }
     }
   }
 

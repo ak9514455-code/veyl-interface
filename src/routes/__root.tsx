@@ -96,6 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+       { rel: "apple-touch-icon", href: "/favicon.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -103,6 +104,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
+
+import LoadingOverlay from "@/components/Layout/LoadingOverlay";
+import SplashCursor from "@/components/reactbits/SplashCursor";
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
@@ -112,6 +116,8 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <SplashCursor />
+        <LoadingOverlay />
         <Scripts />
       </body>
     </html>
