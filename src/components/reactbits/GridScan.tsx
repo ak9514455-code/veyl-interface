@@ -16,9 +16,10 @@ export default function GridScan({ linesColor = "#2F293A", lineThickness = 1, se
   useEffect(() => {
     const container = ref.current;
     if (!container) return;
+    const containerEl = container as HTMLDivElement;
 
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+    const width = containerEl.clientWidth;
+    const height = containerEl.clientHeight;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
@@ -47,22 +48,24 @@ export default function GridScan({ linesColor = "#2F293A", lineThickness = 1, se
     // create vertical lines (cap iterations)
     let count = 0;
     for (let x = 0; x < width && count < maxLines; x += spacing, count++) {
-      const material = new THREE.LineBasicMaterial({ color: new THREE.Color(linesColor), linewidth: lineThickness, transparent: true, opacity: 0.24 });
-      const points = [new THREE.Vector3(x, 0, 0), new THREE.Vector3(x, height, 0)];
-      const geo = new THREE.BufferGeometry().setFromPoints(points);
-      const line = new THREE.Line(geo, material as any);
-      g.add(line);
-    }
+          const lc = linesColor ?? "#2F293A";
+          const material = new THREE.LineBasicMaterial({ color: new THREE.Color(lc), linewidth: lineThickness, transparent: true, opacity: 0.24 });
+          const points = [new THREE.Vector3(x, 0, 0), new THREE.Vector3(x, height, 0)];
+          const geo = new THREE.BufferGeometry().setFromPoints(points);
+          const line = new THREE.Line(geo, material as any);
+          g.add(line);
+        }
 
     // horizontal lines (cap iterations)
     count = 0;
     for (let y = 0; y < height && count < maxLines; y += spacing, count++) {
-      const material = new THREE.LineBasicMaterial({ color: new THREE.Color(linesColor), linewidth: lineThickness, transparent: true, opacity: 0.24 });
-      const points = [new THREE.Vector3(0, y, 0), new THREE.Vector3(width, y, 0)];
-      const geo = new THREE.BufferGeometry().setFromPoints(points);
-      const line = new THREE.Line(geo, material as any);
-      g.add(line);
-    }
+          const lc = linesColor ?? "#2F293A";
+          const material = new THREE.LineBasicMaterial({ color: new THREE.Color(lc), linewidth: lineThickness, transparent: true, opacity: 0.24 });
+          const points = [new THREE.Vector3(0, y, 0), new THREE.Vector3(width, y, 0)];
+          const geo = new THREE.BufferGeometry().setFromPoints(points);
+          const line = new THREE.Line(geo, material as any);
+          g.add(line);
+        }
 
     scene.add(g);
 
@@ -77,8 +80,8 @@ export default function GridScan({ linesColor = "#2F293A", lineThickness = 1, se
 
     let t = 0;
     function resize() {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
+      const w = containerEl.clientWidth;
+      const h = containerEl.clientHeight;
       renderer.setSize(w, h);
       camera.right = w;
       camera.top = h;

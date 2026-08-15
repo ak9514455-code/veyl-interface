@@ -6,19 +6,20 @@ export default function ParticleBackground({ color = "#7C5CFF" }: { color?: stri
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const canvasEl = canvas as HTMLCanvasElement;
+    const ctx = canvasEl.getContext("2d");
     if (!ctx) return;
 
-    let w = (canvas.width = canvas.clientWidth * devicePixelRatio);
-    let h = (canvas.height = canvas.clientHeight * devicePixelRatio);
+    let w = (canvasEl.width = canvasEl.clientWidth * devicePixelRatio);
+    let h = (canvasEl.height = canvasEl.clientHeight * devicePixelRatio);
     ctx.scale(devicePixelRatio, devicePixelRatio);
 
     let particles: { x: number; y: number; r: number; vx: number; vy: number; alpha: number }[] = [];
-    const count = Math.max(8, Math.floor((canvas.clientWidth * canvas.clientHeight) / (800 * 400)) );
+    const count = Math.max(8, Math.floor((canvasEl.clientWidth * canvasEl.clientHeight) / (800 * 400)) );
     for (let i = 0; i < count; i++) {
       particles.push({
-        x: Math.random() * canvas.clientWidth,
-        y: Math.random() * canvas.clientHeight,
+        x: Math.random() * canvasEl.clientWidth,
+        y: Math.random() * canvasEl.clientHeight,
         r: 0.8 + Math.random() * 1.6,
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
@@ -29,14 +30,14 @@ export default function ParticleBackground({ color = "#7C5CFF" }: { color?: stri
     let raf = 0;
     function draw() {
       if (!ctx) return;
-      ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      ctx.clearRect(0, 0, canvasEl.clientWidth, canvasEl.clientHeight);
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
-        if (p.x < -10) p.x = canvas.clientWidth + 10;
-        if (p.x > canvas.clientWidth + 10) p.x = -10;
-        if (p.y < -10) p.y = canvas.clientHeight + 10;
-        if (p.y > canvas.clientHeight + 10) p.y = -10;
+        if (p.x < -10) p.x = canvasEl.clientWidth + 10;
+                if (p.x > canvasEl.clientWidth + 10) p.x = -10;
+                if (p.y < -10) p.y = canvasEl.clientHeight + 10;
+                if (p.y > canvasEl.clientHeight + 10) p.y = -10;
 
         ctx.beginPath();
         ctx.fillStyle = `rgba(124,92,255,${p.alpha})`;
@@ -49,8 +50,8 @@ export default function ParticleBackground({ color = "#7C5CFF" }: { color?: stri
     draw();
 
     function onResize() {
-      w = (canvas.width = canvas.clientWidth * devicePixelRatio);
-      h = (canvas.height = canvas.clientHeight * devicePixelRatio);
+          w = (canvasEl.width = canvasEl.clientWidth * devicePixelRatio);
+          h = (canvasEl.height = canvasEl.clientHeight * devicePixelRatio);
       ctx.scale(devicePixelRatio, devicePixelRatio);
     }
 

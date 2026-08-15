@@ -13,7 +13,8 @@ async function rateLimitKey(_key: string) {
 
 export const submitWaitlist = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => schema.parse(data))
-  .handler(async ({ data, request }) => {
+  .handler(async (ctx: any) => {
+    const { data, request } = ctx;
     // Basic rate-limit abstraction: key by IP when available
     try {
       const ip = (request as any)?.headers?.get?.("x-forwarded-for") || (request as any)?.ip || "anon";

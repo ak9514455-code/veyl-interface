@@ -1,51 +1,79 @@
 import { useEffect, useRef } from 'react';
 
-export default function MatrixBackground({ opacity = 0.6 }: { opacity?: number }) {
+export default function MatrixBackground({
+  opacity = 0.55,
+  className,
+}: {
+  opacity?: number;
+  className?: string;
+}) {
   const ref = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const canvasEl = canvas as HTMLCanvasElement;
+    const ctx = canvasEl.getContext('2d');
     if (!ctx) return;
 
-    let w = (canvas.width = canvas.clientWidth * devicePixelRatio);
-    let h = (canvas.height = canvas.clientHeight * devicePixelRatio);
-    ctx.scale(devicePixelRatio, devicePixelRatio);
+    const setCanvasSize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = canvasEl.clientWidth || 1;
+      const height = canvasEl.clientHeight || 1;
+      canvasEl.width = width * dpr;
+      canvasEl.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
 
-    const cols = Math.floor(canvas.clientWidth / 14);
-    const ypos = new Array(cols).fill(0);
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789@$%&*+-<>!?#'.split('');
+    setCanvasSize();
+
+    const fontSize = 16;
+    const cols = Math.max(12, Math.floor((canvasEl.clientWidth || 1) / fontSize));
+    const drops = new Array(cols).fill(0).map(() => Math.random() * -30);
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
 
     let raf = 0;
-    function draw() {
-      if (!ctx) return;
-      // translucent black background for trail effect
-      ctx.fillStyle = `rgba(0,0,0,0.06)`;
-      ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    let last = performance.now();
+    const targetFps = 24;
+    const frameMs = 1000 / targetFps;
 
-      ctx.fillStyle = `rgba(60,255,100,${opacity})`;
-      ctx.font = '12px "JetBrains Mono", monospace';
+    function draw(now = performance.now()) {
+      if (!ctx) return;
+      const delta = now - last;
+      if (delta < frameMs) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
+      last = now;
+
+      const width = canvasEl.clientWidth || 1;
+      const height = canvasEl.clientHeight || 1;
+
+      ctx.fillStyle = `rgba(3, 9, 4, ${0.14 + Math.min(opacity, 0.9) * 0.2})`;
+      ctx.fillRect(0, 0, width, height);
 
       for (let i = 0; i < cols; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        const x = i * 14;
-        const y = ypos[i] * 14;
-        ctx.fillText(text, x, y);
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+        const glow = i % 4 === 0 ? 0.9 : 0.55;
+        ctx.fillStyle = `rgba(109, 255, 143, ${glow})`;
+        ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
+        ctx.fillText(char, x, y);
 
-        if (y > canvas.clientHeight && Math.random() > 0.975) ypos[i] = 0;
-        ypos[i]++;
+        if (y > height && Math.random() > 0.97) {
+          drops[i] = Math.random() * -20;
+        }
+        drops[i] += 0.5 + Math.random() * 0.9;
       }
 
       raf = requestAnimationFrame(draw);
     }
 
-    draw();
+    raf = requestAnimationFrame(draw);
 
     function onResize() {
-      w = (canvas.width = canvas.clientWidth * devicePixelRatio);
-      h = (canvas.height = canvas.clientHeight * devicePixelRatio);
-      ctx.scale(devicePixelRatio, devicePixelRatio);
+      setCanvasSize();
     }
 
     window.addEventListener('resize', onResize);
@@ -58,7 +86,7 @@ export default function MatrixBackground({ opacity = 0.6 }: { opacity?: number }
   return (
     <canvas
       ref={ref}
-      className="pointer-events-none absolute inset-0 h-full w-full"
+      className={className ?? 'pointer-events-none absolute inset-0 h-full w-full'}
       style={{ opacity: 1 }}
     />
   );
